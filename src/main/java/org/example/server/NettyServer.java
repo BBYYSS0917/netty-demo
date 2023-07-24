@@ -6,6 +6,12 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import org.example.server.handler.inbound.InBoundHandlerA;
+import org.example.server.handler.inbound.InBoundHandlerB;
+import org.example.server.handler.inbound.InBoundHandlerC;
+import org.example.server.handler.outbound.OutBoundHandlerA;
+import org.example.server.handler.outbound.OutBoundHandlerB;
+import org.example.server.handler.outbound.OutBoundHandlerC;
 
 public class NettyServer {
     private static final int PORT = 8000;
@@ -23,7 +29,14 @@ public class NettyServer {
                 .childOption(ChannelOption.TCP_NODELAY, true)
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel ch) {
-                        ch.pipeline().addLast(new ServerHandler());
+//                        ch.pipeline().addLast(new ServerHandler());
+                        ch.pipeline().addLast(new InBoundHandlerA());
+                        ch.pipeline().addLast(new InBoundHandlerB());
+                        ch.pipeline().addLast(new InBoundHandlerC());
+
+                        ch.pipeline().addLast(new OutBoundHandlerA());
+                        ch.pipeline().addLast(new OutBoundHandlerB());
+                        ch.pipeline().addLast(new OutBoundHandlerC());
                     }
                 });
 
