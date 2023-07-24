@@ -7,6 +7,8 @@ import org.example.protocol.command.LoginRequestPacket;
 import org.example.protocol.command.Packet;
 import org.example.protocol.command.PacketCodeC;
 import org.example.protocol.response.LoginResponsePacket;
+import org.example.protocol.response.MessageResponsePacket;
+import org.example.util.LoginUtil;
 
 import java.util.Date;
 import java.util.UUID;
@@ -40,11 +42,15 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
             LoginResponsePacket loginResponsePacket = (LoginResponsePacket) packet;
 
             if (loginResponsePacket.isSuccess()) {
+                LoginUtil.markAsLogin(ctx.channel());
                 System.out.println(new Date() + ": 客户端登录成功");
             } else {
                 System.out.println(new Date() + ": 客户端登录失败，原因：" + loginResponsePacket.getReason());
             }
-        }else{
+        } else if (packet instanceof MessageResponsePacket) {
+            MessageResponsePacket messageResponsePacket = (MessageResponsePacket) packet;
+            System.out.println(new Date() + ": 收到服务端消息: " + messageResponsePacket.getMessage());
+        } else {
             System.out.println("未知数据包");
         }
     }
