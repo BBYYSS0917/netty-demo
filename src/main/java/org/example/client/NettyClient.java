@@ -9,6 +9,10 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import org.example.client.handler.LoginResponseHandler;
+import org.example.client.handler.MessageResponseHandler;
+import org.example.codec.PacketDecoder;
+import org.example.codec.PacketEncoder;
 import org.example.protocol.command.PacketCodeC;
 import org.example.protocol.request.MessageRequestPacket;
 import org.example.util.LoginUtil;
@@ -36,7 +40,10 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     public void initChannel(SocketChannel ch) {
-                        ch.pipeline().addLast(new ClientHandler());
+                        ch.pipeline().addLast(new PacketDecoder());
+                        ch.pipeline().addLast(new LoginResponseHandler());
+                        ch.pipeline().addLast(new MessageResponseHandler());
+                        ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
 
