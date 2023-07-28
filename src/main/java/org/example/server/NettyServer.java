@@ -9,6 +9,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import org.example.codec.PacketDecoder;
 import org.example.codec.PacketEncoder;
+import org.example.codec.Spliter;
 import org.example.server.handler.LoginRequestHandler;
 import org.example.server.handler.MessageRequestHandler;
 import org.example.server.handler.inbound.InBoundHandlerA;
@@ -42,7 +43,12 @@ public class NettyServer {
 //                        ch.pipeline().addLast(new OutBoundHandlerA());
 //                        ch.pipeline().addLast(new OutBoundHandlerB());
 //                        ch.pipeline().addLast(new OutBoundHandlerC());
+<<<<<<< HEAD
                         ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 7, 4));
+=======
+//                        ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 7, 4));
+                        ch.pipeline().addLast(new Spliter());
+>>>>>>> 30e502b88038429627977739f9ca85a4e0cf778b
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginRequestHandler());
                         ch.pipeline().addLast(new MessageRequestHandler());
